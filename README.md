@@ -1,66 +1,52 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# README
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 1.1修訂紀錄
 
-## About Laravel
+|序號|修訂時間|修訂內容|修訂人員|
+|----|----|----|----|
+|1|2024 12 13|初始化 laravel 的專案<br>Set up a fresh Laravel app|charley|
+|2|2024 12 13|添加基本套件的安裝<br>feat: install kit<br>Install Breeze|charley|
+|3|2024 12 13|添加 docker-compose<br>import docker-compose|charley|
+|4|2024 12 13|安裝 Swagger docs<br>feat: install Swagger docs|charley|
+|--|----|----|----|
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## docker-compose
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+~~~bash
+# 重新構建並啟動容器
+docker-compose up --build -d
+# 啟動容器
+docker-compose up -d
+# 關閉容器
+docker-compose down
+# 查看容器
+docker ps
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# 查看全部或單一容器的紀錄
+docker-compose logs -f
+docker logs nginx_container
 
-## Learning Laravel
+# 進入容器與執行指令，退出
+docker exec -it php_container /bin/bash
+php artisan migrate
+exit
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+# 上列三行指令合併為下列指令（綜合）
+docker exec -it php_container compose i
+docker exec -it php_container php artisan migrate
+docker exec -it php_container php artisan migrate:refresh
+docker exec -it php_container php artisan db:seed
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+# 個人製作的執行工具
+docker exec -it php_container sh install.sh 
+~~~
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+在 AWS 上 `compose i`不能使用簡稱，  
+需要全部名稱 `compose install`
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+> note:  
+第一次啟動專案的時候，  
+需要使用 `install.sh` 檔案當中最後一欄指令，  
+建立ssl憑證，以及手動使用  
+`docker exec -it php_container php artisan migrate:refresh`  
+才能順利啟用專案
