@@ -7,7 +7,7 @@
 |1|2024 12 13|初始化 laravel 的專案<br>Set up a fresh Laravel app|charley|
 |2|2024 12 13|添加基本套件的安裝<br>feat: install kit<br>Install Breeze|charley|
 |3|2024 12 13|添加 docker-compose<br>import docker-compose|charley|
-|4|2024 12 13|安裝 Swagger docs<br>feat: install Swagger docs|charley|
+|4|2024 12 14|安裝 Swagger docs<br>feat: install Swagger docs|charley|
 |--|----|----|----|
 
 ## docker-compose
@@ -38,7 +38,7 @@ docker exec -it php_container php artisan migrate:refresh
 docker exec -it php_container php artisan db:seed
 
 # 個人製作的執行工具
-docker exec -it php_container sh install.sh 
+docker exec -it php_container sh install.sh
 ~~~
 
 在 AWS 上 `compose i`不能使用簡稱，  
@@ -50,3 +50,12 @@ docker exec -it php_container sh install.sh
 建立ssl憑證，以及手動使用  
 `docker exec -it php_container php artisan migrate:refresh`  
 才能順利啟用專案
+
+## swagger
+
+~~~
+docker exec -it php_container php artisan route:list
+確認 route 是否有api文件的路徑，有時候會有找不到頁面的情況
+docker exec -it php_container php artisan l5-swagger:generate
+~~~
+進入 api docs 的網址：[api/documentation](https://127.0.0.1/api/documentation)

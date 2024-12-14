@@ -11,7 +11,16 @@ use Illuminate\Support\Facades\Auth;
 class AuthenticatedSessionController extends Controller
 {
     /**
-     * Handle an incoming authentication request.
+     * @OA\Get(
+     *     path="/example",
+     *     tags={"Example"},
+     *     summary="Get example data",
+     *     description="Returns example data",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation"
+     *     )
+     * )
      */
     public function store(LoginRequest $request): Response
     {
