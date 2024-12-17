@@ -2,11 +2,13 @@
 
 namespace App\Http\Requests\Auth;
 
-use Illuminate\Auth\Events\Lockout;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Auth\Events\Lockout;
+use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends FormRequest
@@ -37,19 +39,30 @@ class LoginRequest extends FormRequest
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function authenticate(): void
+    public function authenticate(): string
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
+        $credentials = $this->only('email', 'password');
 
+        try {
+            if (!$token = JWTAuth::attempt($credentials)) {
+                RateLimiter::hit($this->throttleKey());
+
+                throw ValidationException::withMessages([
+                    'email' => __('auth.failed'), // 'auth.failed' maps to: 'These credentials do not match our records.'
+                ]);
+            }
+
+            // Clear the rate limiter key if authentication is successful
+            RateLimiter::clear($this->throttleKey());
+
+            return $token;
+        } catch (JWTException $e) {
             throw ValidationException::withMessages([
-                'email' => __('auth.failed'),
+                'email' => __('auth.token_failed'), // Add a new translation key for token failures
             ]);
         }
-
-        RateLimiter::clear($this->throttleKey());
     }
 
     /**

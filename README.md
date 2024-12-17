@@ -8,7 +8,8 @@
 |2|2024 12 13|添加基本套件的安裝<br>feat: install kit<br>Install Breeze|charley|
 |3|2024 12 13|添加 docker-compose<br>import docker-compose|charley|
 |4|2024 12 14|安裝 Swagger docs<br>feat: install Swagger docs|charley|
-|4|2024 12 17|更新登入與註冊的 Swagger docs<br>docs: update Swagger docs for login and registration endpoints|charley|
+|5|2024 12 17|更新登入與註冊的 Swagger docs<br>docs: update Swagger docs for login and registration endpoints|charley|
+|6|2024 12 17|添加 JWT，及更新登入註冊之功能與文件<br>feat: install JWT, and update login and registration functionality and documentation|charley|
 |--|----|----|----|
 
 ## docker-compose
@@ -22,6 +23,8 @@ docker-compose up -d
 docker-compose down
 # 查看容器
 docker ps
+# 刪除 volume
+docker volume prune
 
 # 查看全部或單一容器的紀錄
 docker-compose logs -f
@@ -60,3 +63,17 @@ docker exec -it php_container php artisan route:list
 docker exec -it php_container php artisan l5-swagger:generate
 ~~~
 進入 api docs 的網址：[api/documentation](https://127.0.0.1/api/documentation)
+
+## jwt
+
+~~~
+composer require tymon/jwt-auth
+php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+php artisan jwt:secret
+~~~
+## test
+
+~~~
+php artisan test
+~~~
+
