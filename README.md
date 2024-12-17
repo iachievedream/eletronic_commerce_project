@@ -8,6 +8,7 @@
 |2|2024 12 13|添加基本套件的安裝<br>feat: install kit<br>Install Breeze|charley|
 |3|2024 12 13|添加 docker-compose<br>import docker-compose|charley|
 |4|2024 12 14|安裝 Swagger docs<br>feat: install Swagger docs|charley|
+|4|2024 12 17|更新登入與註冊的 Swagger docs<br>docs: update Swagger docs for login and registration endpoints|charley|
 |--|----|----|----|
 
 ## docker-compose
